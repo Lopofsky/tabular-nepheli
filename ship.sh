@@ -21,15 +21,7 @@ log() {
 git_pull_repo() {
     log "Pulling latest changes from repository..." $YELLOW
     git checkout main
-    git pull
-    
-    # Fall back to regular pull if authentication fails or credentials don't exist
-    if git pull origin master; then
-        log "Repository updated successfully" $GREEN
-    else
-        log "Failed to pull from repository" $RED
-        exit 1
-    fi
+    git pull origin main
 }
 
 # Check if Docker is running
