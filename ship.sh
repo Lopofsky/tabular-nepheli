@@ -21,20 +21,7 @@ log() {
 git_pull_repo() {
     log "Pulling latest changes from repository..." $YELLOW
     
-    # Check if .env exists and try to source git credentials
-    if [ -f .env ]; then
-        source .env
-        
-        # If both git credentials exist, try authenticated pull
-        if [ ! -z "${GIT_USERNAME:-}" ] && [ ! -z "${GIT_PASS:-}" ]; then
-            if git pull "https://${GIT_USERNAME}:${GIT_PASS}@cm.nepheli.org/gitlab/stefanos/flow.git" master; then
-                log "Repository updated successfully with authentication" $GREEN
-                return 0
-            else
-                log "Authenticated pull failed, trying regular pull..." $YELLOW
-            fi
-        fi
-    fi
+    git pull origin main
     
     # Fall back to regular pull if authentication fails or credentials don't exist
     if git pull origin master; then
