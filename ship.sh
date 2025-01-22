@@ -63,6 +63,7 @@ if docker run -d \
     $IMAGE_NAME; then
     log "Container started successfully!"
     log "Application is running on http://localhost:$PORT"
+    log "To view logs, run: docker logs -f $CONTAINER_NAME"
 else
     log "Failed to start container" $RED
     exit 1
