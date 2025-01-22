@@ -20,8 +20,8 @@ log() {
 # Function to load environment variables and perform git pull
 git_pull_repo() {
     log "Pulling latest changes from repository..." $YELLOW
-    
-    git pull origin main
+    git checkout main
+    git pull
     
     # Fall back to regular pull if authentication fails or credentials don't exist
     if git pull origin master; then
