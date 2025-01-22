@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0">
-    <title>Excel Aggregator</title>
+    <title>Nepheli Tabular</title>
     <link rel="stylesheet"
         href="/static/styles.css">
 </head>
@@ -13,12 +13,12 @@
 <body>
     <main class="container">
         <header class="main-header">
-            <h1>Excel Aggregator</h1>
-            <p class="subtitle">Upload your Excel file and create custom aggregations in seconds</p>
+            <h1>Pivotαρε από οπουδήποτε τα Excel σου!</h1>
+            <p class="subtitle">Pivot Tables για οποιοδήποτε Excel</p>
         </header>
 
         <section class="upload-section">
-            <h2>Upload Excel File</h2>
+            <h2>Ανέβασε το Excel σου</h2>
             <div class="upload-zone"
                 id="uploadZone">
                 <div class="upload-content">
@@ -40,9 +40,9 @@
                         accept=".xlsx,.xls"
                         id="fileInput"
                         class="file-input">
-                    <p class="upload-text">Drag and drop your Excel file here or</p>
-                    <button class="browse-btn">Choose File</button>
-                    <p class="support-text">Supports .xlsx and .xls files</p>
+                    <p class="upload-text">Σύρε με το ποντίκι το αρχείο μέσα στο πλαίσιο για να το ανεβάσεις...</p>
+                    <button class="browse-btn">... ή κλίκαρε εδώ</button>
+                    <p class="support-text">Το αρχείο πρέπει να είναι .xlsx ή .xls</p>
                 </div>
             </div>
             <div id="uploadStatus"
@@ -51,16 +51,16 @@
 
         <section id="columnSection"
             class="hidden">
-            <h2>Select Columns</h2>
+            <h2>Επιλέξτε Στήλες</h2>
             <div class="columns-container">
                 <div class="column-group">
-                    <h3>Aggregation Columns</h3>
+                    <h3>Στήλες για Πράξεις</h3>
                     <div id="aggColumns"
                         class="column-section"></div>
                 </div>
 
                 <div class="column-group">
-                    <h3>Grouping Columns</h3>
+                    <h3>Στήλες για Ομαδοποίηση</h3>
                     <div id="groupColumns"
                         class="column-section"></div>
                 </div>
@@ -69,14 +69,14 @@
 
         <section id="operationsSection"
             class="hidden">
-            <h2>Configure Operations</h2>
+            <h2>Καθορισμός Πράξεων ανά Στήλη</h2>
             <div id="operations"
                 class="operations-grid"></div>
         </section>
 
         <button id="generateBtn"
             class="generate-btn hidden">
-            <span class="btn-text">Generate Aggregated Excel</span>
+            <span class="btn-text">Δημιουργία νέου Excel</span>
             <span class="loading-spinner hidden"></span>
         </button>
     </main>
