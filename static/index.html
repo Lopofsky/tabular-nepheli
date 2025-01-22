@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+    <title>Excel Aggregator</title>
+    <link rel="stylesheet"
+        href="/static/styles.css">
+</head>
+
+<body>
+    <main class="container">
+        <header class="main-header">
+            <h1>Excel Aggregator</h1>
+            <p class="subtitle">Upload your Excel file and create custom aggregations in seconds</p>
+        </header>
+
+        <section class="upload-section">
+            <h2>Upload Excel File</h2>
+            <div class="upload-zone"
+                id="uploadZone">
+                <div class="upload-content">
+                    <svg class="upload-icon"
+                        width="50"
+                        height="50"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                        <polyline points="17 8 12 3 7 8" />
+                        <line x1="12"
+                            y1="3"
+                            x2="12"
+                            y2="15" />
+                    </svg>
+                    <input type="file"
+                        accept=".xlsx,.xls"
+                        id="fileInput"
+                        class="file-input">
+                    <p class="upload-text">Drag and drop your Excel file here or</p>
+                    <button class="browse-btn">Choose File</button>
+                    <p class="support-text">Supports .xlsx and .xls files</p>
+                </div>
+            </div>
+            <div id="uploadStatus"
+                class="status"></div>
+        </section>
+
+        <section id="columnSection"
+            class="hidden">
+            <h2>Select Columns</h2>
+            <div class="columns-container">
+                <div class="column-group">
+                    <h3>Aggregation Columns</h3>
+                    <div id="aggColumns"
+                        class="column-section"></div>
+                </div>
+
+                <div class="column-group">
+                    <h3>Grouping Columns</h3>
+                    <div id="groupColumns"
+                        class="column-section"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="operationsSection"
+            class="hidden">
+            <h2>Configure Operations</h2>
+            <div id="operations"
+                class="operations-grid"></div>
+        </section>
+
+        <button id="generateBtn"
+            class="generate-btn hidden">
+            <span class="btn-text">Generate Aggregated Excel</span>
+            <span class="loading-spinner hidden"></span>
+        </button>
+    </main>
+    <script src="/static/js/main.js"></script>
+</body>
+
+</html>
