@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Configuration
-CONTAINER_NAME="python_app"
-IMAGE_NAME="python_app_image"
+CONTAINER_NAME="tabular_nepheli"
+IMAGE_NAME="tabular_nepheli_image"
 DOCKERFILE_PATH="./Dockerfile"
 PORT=8004
 
