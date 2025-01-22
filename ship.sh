@@ -52,7 +52,7 @@ if docker build -t $IMAGE_NAME -f $DOCKERFILE_PATH .; then
 else
     log "Failed to build Docker image" $RED
     exit 1
-fi
+fi 
 
 # Run the new container
 log "Starting new container..." $YELLOW
