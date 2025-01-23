@@ -29,7 +29,7 @@ async function handleFileUpload(file) {
     formData.append('file', file);
 
     try {
-        showStatus('Uploading file...', 'info');
+        showStatus('Το αρχείο ανεβαίνει, αναλόγως το μέγεθος, χρειάζεται και η αντίστοιχη υπομονή 😊...', 'info');
         const response = await fetch('/upload', {
             method: 'POST',
             body: formData
