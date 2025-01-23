@@ -1,4 +1,5 @@
 # app/main.py
+from json import loads
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
@@ -40,20 +41,31 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 async def read_root():
     return FileResponse("static/index.html")
 
+
+@app.post("/process-table")
+async def process_table(data: dict):
+    df = pd.DataFrame(data['data'])
+    return {"columns": list(df.columns)}
+
 @app.post("/upload")
 async def upload_file(file: UploadFile = File(...)):
     if not file.filename.endswith(('.xlsx', '.xls')):
         raise HTTPException(400, "Only Excel files are supported")
     
-    file_path = UPLOAD_DIR / file.filename
-    with open(file_path, "wb") as buffer:
+    # Handle pasted data
+    if file.filename == 'pasted-data.xlsx':
         content = await file.read()
-        buffer.write(content)
-    
-    # Read column names
-    df = pd.read_excel(file_path)
+        data = loads(content.decode())
+        df = pd.DataFrame(data['data'])
+    else:
+        file_path = UPLOAD_DIR / file.filename
+        with open(file_path, "wb") as buffer:
+            content = await file.read()
+            buffer.write(content)    
+        # Read column names
+        df = pd.read_excel(file_path)
+
     columns = list(df.columns)
-    
     return {"columns": columns, "filename": file.filename}
 
 @app.post("/aggregate/{filename}")

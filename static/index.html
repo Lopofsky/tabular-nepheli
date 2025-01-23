@@ -45,6 +45,19 @@
                     <p class="support-text">Το αρχείο πρέπει να είναι .xlsx ή .xls</p>
                 </div>
             </div>
+            <div id="paste_section">
+                <div class="divider">ή κάνε copy-paste κατευθείαν από κείμενο!</div>
+                <label for="pasteArea">Paste table data here</label>
+                <div id="pasteArea"
+                    class="paste-area"
+                    contenteditable="true"></div>
+                <button id="processButton"
+                    class="browse-btn">Process Pasted Data</button>
+                <div id="tableContainer"
+                    class="table-container"></div> 
+                <div id="uploadStatus"
+                    class="status"></div>
+            </div>
             <div id="uploadStatus"
                 class="status"></div>
         </section>
@@ -81,6 +94,7 @@
         </button>
     </main>
     <script src="/static/js/main.js"></script>
+    <script src="/static/js/paste.js"></script>
 </body>
 
 </html>

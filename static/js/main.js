@@ -221,3 +221,29 @@ generateBtn.addEventListener('click', async () => {
         document.querySelector('.loading-spinner').classList.add('hidden');
     }
 });
+
+
+async function displayData(tableData) {
+    try {
+        // Convert table data to Excel-like format for backend
+        const formData = new FormData();
+        const blob = new Blob([JSON.stringify(tableData)], { type: 'application/json' });
+        formData.append('file', blob, 'pasted-data.xlsx');
+
+        const response = await fetch('/upload', {
+            method: 'POST',
+            body: formData
+        });
+
+        if (!response.ok) throw new Error('Upload failed');
+
+        const data = await response.json();
+        if (data.columns?.length) {
+            currentFile = data.filename;
+            displayColumnSelectors(data.columns);
+            showStatus('Data processed successfully!', 'success');
+        }
+    } catch (error) {
+        showStatus(`Error: ${error.message}`, 'error');
+    }
+}
