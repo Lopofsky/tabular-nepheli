@@ -276,3 +276,111 @@ section h2 {
     padding: 20px;
     margin: 20px 0;
 }
+
+.table-container table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background: white;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.table-container th {
+    background: var(--gray-100);
+    padding: 12px;
+    text-align: left;
+    font-weight: 600;
+    border-bottom: 2px solid var(--gray-300);
+    position: sticky;
+    top: 0;
+}
+
+.table-container td {
+    padding: 12px;
+    border-bottom: 1px solid var(--gray-200);
+}
+
+.table-container tr:hover {
+    background: var(--gray-50);
+}
+
+.table-container .numeric {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+
+.table-container {
+    overflow-x: auto;
+    margin: 1rem 0;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+    background: white;
+}
+
+.data-table th {
+    background: var(--gray-100);
+    font-weight: 600;
+    text-align: left;
+    padding: 0.75rem 1rem;
+    border-bottom: 2px solid var(--gray-200);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.data-table td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--gray-200);
+    transition: background 0.2s;
+}
+
+.data-table tr:hover td {
+    background: var(--gray-50);
+}
+
+.data-table tr:last-child td {
+    border-bottom: none;
+}
+
+.data-table .numeric {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+
+.data-table .status {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.5rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.data-table .status.paid {
+    background: #ecfdf5;
+    color: var(--success);
+}
+
+.data-table .status.expired {
+    background: #fef2f2;
+    color: var(--error);
+}
+
+.data-table .status.pending {
+    background: var(--gray-100);
+    color: var(--gray-700);
+}
+
+@media (max-width: 640px) {
+
+    .data-table th,
+    .data-table td {
+        padding: 0.5rem;
+    }
+}

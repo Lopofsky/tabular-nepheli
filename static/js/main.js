@@ -18,32 +18,6 @@ let currentFile = null;
 let selectedAggColumns = new Set();
 let selectedGroupColumns = new Set();
 
-// Event Listeners
-browseBtn.addEventListener('click', () => fileInput.click());
-
-uploadZone.addEventListener('dragover', (e) => {
-    e.preventDefault();
-    uploadZone.classList.add('dragging');
-});
-
-uploadZone.addEventListener('dragleave', () => {
-    uploadZone.classList.remove('dragging');
-});
-
-uploadZone.addEventListener('drop', (e) => {
-    e.preventDefault();
-    uploadZone.classList.remove('dragging');
-    const files = e.dataTransfer.files;
-    if (files.length) {
-        handleFileUpload(files[0]);
-    }
-});
-
-fileInput.addEventListener('change', (e) => {
-    if (e.target.files.length) {
-        handleFileUpload(e.target.files[0]);
-    }
-});
 
 async function handleFileUpload(file) {
     if (!file.name.match(/\.(xlsx|xls)$/)) {
@@ -173,6 +147,114 @@ function showStatus(message, type) {
     uploadStatus.style.display = 'block';
 }
 
+
+async function displayData(tableData) {
+    try {
+        // Convert table data to Excel-like format for backend
+        const formData = new FormData();
+        const blob = new Blob([JSON.stringify(tableData)], { type: 'application/json' });
+        formData.append('file', blob, 'pasted-data.xlsx');
+
+        const response = await fetch('/upload', {
+            method: 'POST',
+            body: formData
+        });
+
+        if (!response.ok) throw new Error('Upload failed');
+
+        const data = await response.json();
+        if (data.columns?.length) {
+            currentFile = data.filename;
+            displayColumnSelectors(data.columns);
+            showStatus('Data processed successfully!', 'success');
+        }
+    } catch (error) {
+        showStatus(`Error: ${error.message}`, 'error');
+    }
+}
+
+function renderTable(data, columns) {
+    const table = document.createElement('table');
+    table.className = 'data-table';
+
+    // Header
+    const thead = document.createElement('thead');
+    const headerRow = document.createElement('tr');
+    columns.forEach(column => {
+        const th = document.createElement('th');
+        th.textContent = column;
+        headerRow.appendChild(th);
+    });
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
+
+    // Body
+    const tbody = document.createElement('tbody');
+    data.forEach(row => {
+        const tr = document.createElement('tr');
+        columns.forEach(column => {
+            const td = document.createElement('td');
+            const value = row[column];
+
+            if (typeof value === 'number') {
+                td.className = 'numeric';
+                td.textContent = value.toLocaleString();
+            } else if (column.toLowerCase().includes('status')) {
+                const status = document.createElement('span');
+                status.textContent = value;
+                status.className = `status ${getStatusClass(value)}`;
+                td.appendChild(status);
+            } else {
+                td.textContent = value;
+            }
+
+            tr.appendChild(td);
+        });
+        tbody.appendChild(tr);
+    });
+    table.appendChild(tbody);
+
+    const container = document.getElementById('tableContainer');
+    container.innerHTML = '';
+    container.appendChild(table);
+}
+
+function getStatusClass(status) {
+    status = status.toLowerCase();
+    if (status.includes('paid')) return 'paid';
+    if (status.includes('expired')) return 'expired';
+    return 'pending';
+}
+
+
+
+// Event Listeners
+browseBtn.addEventListener('click', () => fileInput.click());
+
+uploadZone.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    uploadZone.classList.add('dragging');
+});
+
+uploadZone.addEventListener('dragleave', () => {
+    uploadZone.classList.remove('dragging');
+});
+
+uploadZone.addEventListener('drop', (e) => {
+    e.preventDefault();
+    uploadZone.classList.remove('dragging');
+    const files = e.dataTransfer.files;
+    if (files.length) {
+        handleFileUpload(files[0]);
+    }
+});
+
+fileInput.addEventListener('change', (e) => {
+    if (e.target.files.length) {
+        handleFileUpload(e.target.files[0]);
+    }
+});
+
 generateBtn.addEventListener('click', async () => {
     console.log('Generate button clicked', currentFile);  // Add this debug
     if (!currentFile) {
@@ -238,30 +320,3 @@ generateBtn.addEventListener('click', async () => {
         document.querySelector('.loading-spinner').classList.add('hidden');
     }
 });
-
-
-async function displayData(tableData) {
-    try {
-        // Convert table data to Excel-like format for backend
-        const formData = new FormData();
-        const blob = new Blob([JSON.stringify(tableData)], { type: 'application/json' });
-        formData.append('file', blob, 'pasted-data.xlsx');
-
-        const response = await fetch('/upload', {
-            method: 'POST',
-            body: formData
-        });
-
-        if (!response.ok) throw new Error('Upload failed');
-
-        const data = await response.json();
-        if (data.columns?.length) {
-            currentFile = data.filename;
-            displayColumnSelectors(data.columns);
-            showStatus('Data processed successfully!', 'success');
-        }
-    } catch (error) {
-        showStatus(`Error: ${error.message}`, 'error');
-    }
-}
-

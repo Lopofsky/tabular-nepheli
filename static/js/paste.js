@@ -100,7 +100,7 @@ function generateTableHTML(tableData) {
       </thead>
       <tbody>
         ${tableData.data.map(row => `
-          <tr>${tableData.headers.map(h => `<td>${row[h]}</td>`).join('')}</tr>
+          <tr>${tableData.headers.map(h => `<td${!isNaN(row[h]) ? ' class="numeric"' : ''}>${row[h]}</td>`).join('')}</tr>
         `).join('')}
       </tbody>
     </table>
