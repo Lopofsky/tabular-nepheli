@@ -47,22 +47,25 @@ async def process_table(data: dict):
     df = pd.DataFrame(data['data'])
     return {"columns": list(df.columns)}
 
+
 @app.post("/upload")
 async def upload_file(file: UploadFile = File(...)):
     if not file.filename.endswith(('.xlsx', '.xls')):
         raise HTTPException(400, "Only Excel files are supported")
-    
+
+    file_path = UPLOAD_DIR / file.filename
+
     # Handle pasted data
     if file.filename == 'pasted-data.xlsx':
         content = await file.read()
         data = loads(content.decode())
         df = pd.DataFrame(data['data'])
+        # Save pasted data as Excel
+        df.to_excel(file_path, index=False)
     else:
-        file_path = UPLOAD_DIR / file.filename
         with open(file_path, "wb") as buffer:
             content = await file.read()
-            buffer.write(content)    
-        # Read column names
+            buffer.write(content)
         df = pd.read_excel(file_path)
 
     columns = list(df.columns)

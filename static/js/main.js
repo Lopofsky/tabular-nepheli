@@ -174,7 +174,24 @@ function showStatus(message, type) {
 }
 
 generateBtn.addEventListener('click', async () => {
-    if (!currentFile) return;
+    console.log('Generate button clicked', currentFile);  // Add this debug
+    if (!currentFile) {
+        console.error('No file selected');
+        return;
+    }
+
+    if (currentFile === 'pasted-data.xlsx') {
+        const tableData = Array.from(document.querySelector('#tableContainer table tbody').rows).map(row => {
+            const cells = Array.from(row.cells);
+            const headers = Array.from(document.querySelector('#tableContainer table thead').rows[0].cells).map(th => th.textContent);
+            return Object.fromEntries(headers.map((header, i) => [header, cells[i].textContent]));
+        });
+
+        const formData = new FormData();
+        const blob = new Blob([JSON.stringify({ data: tableData })], { type: 'application/json' });
+        formData.append('file', blob, 'pasted-data.xlsx');
+        await fetch('/upload', { method: 'POST', body: formData });
+    }
 
     const operationsMap = {};
     selectedAggColumns.forEach(col => {
@@ -247,3 +264,4 @@ async function displayData(tableData) {
         showStatus(`Error: ${error.message}`, 'error');
     }
 }
+

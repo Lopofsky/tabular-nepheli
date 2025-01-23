@@ -8,7 +8,7 @@ pasteArea.addEventListener('paste', async (e) => {
     
     const tableData = await processClipboardData(clipboardData);
     if (tableData) {
-        displayData(tableData);
+        displayPastedData(tableData);
         handleDataUpload(tableData);
     }
 });
@@ -66,6 +66,9 @@ function processTextData(content) {
 }
 
 async function handleDataUpload(tableData) {
+    currentFile = 'pasted-data.xlsx';  // Add this line
+    displayData(tableData);
+    showStatus('Table data processed successfully!', 'success');
     try {
         const response = await fetch('/process-table', {
             method: 'POST',
@@ -83,7 +86,7 @@ async function handleDataUpload(tableData) {
     }
 }
 
-function displayData(tableData) {
+function displayPastedData(tableData) {
     const tableHTML = generateTableHTML(tableData); // Create a function to render the table
     document.getElementById('tableContainer').innerHTML = tableHTML;
     handleDataUpload(tableData);  // This calls your existing backend dispatch
